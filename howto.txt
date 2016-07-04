@@ -1,0 +1,12 @@
+use ilspy and reflexil (both are free)
+
+open aspose.words
+find aspose.words.license class, open IsLicensed
+click on used function (ENQ____.ETX())
+click on it's containing class - right click on it, then "analyze"
+expand "used by" - should show a routine that takes Document as argument
+there is a switch operator that calls some routine of another class
+click on the routine, then click on reflexil buttone (in the top toolbar)
+open "instructions" and delete all instructions except the last "ret"
+
+save file as Aspose.Words.dlls

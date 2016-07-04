@@ -1,0 +1,7 @@
+g:\projects\WordConvert\WordConvert\bin\Debug\WordConvert.exe.config
+g:\projects\WordConvert\WordConvert\bin\Debug\WordConvert.exe
+g:\projects\WordConvert\WordConvert\bin\Debug\WordConvert.pdb
+g:\projects\WordConvert\WordConvert\obj\Debug\WordConvert.csprojResolveAssemblyReference.cache
+g:\projects\WordConvert\WordConvert\obj\Debug\WordConvert.exe
+g:\projects\WordConvert\WordConvert\obj\Debug\WordConvert.pdb
+g:\projects\WordConvert\WordConvert\bin\Debug\Aspose.Words.dll
