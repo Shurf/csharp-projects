@@ -10,9 +10,9 @@ using System.IO;
 
 namespace WordConvert
 {
-    class Program
+    public class WordConverter
     {
-
+        
         static void ConvertToHtml(string sourceFilePath, string outputDirectoryName)
         {
             var fileName = Path.GetFileNameWithoutExtension(sourceFilePath);
@@ -25,34 +25,29 @@ namespace WordConvert
             document.Save(Path.Combine(outputDirectoryName, fileName + ".html"), options);
         }
 
-        static void Main(string[] args)
+        public static int ConvertPath(string inputDirectoryName, string outputDirectoryName)
         {
-            var inputDirectoryName = "g:\\projects\\books\\pisma_mahatm";
-            var outputDirectoryName = inputDirectoryName + "_converted";
-
             var outputDirectory = new DirectoryInfo(outputDirectoryName);
             if (!outputDirectory.Exists)
                 outputDirectory.Create();
 
+            int result = 0;
+
+            // convert all DOCXs
             foreach (var file in Directory.GetFiles(inputDirectoryName, "*.docx"))
             {
                 ConvertToHtml(file, outputDirectoryName);
+                result++;
             }
 
-            /*foreach(var book_dir in Directory.GetDirectories("g:\\projects\\books\\roerich"))
+            // convert all DOCs
+            foreach (var file in Directory.GetFiles(inputDirectoryName, "*.doc"))
             {
-                var inputDirectoryName = book_dir;
-                var outputDirectoryName = inputDirectoryName + "_converted";
-                var outputDirectory = new DirectoryInfo(outputDirectoryName);
-                if (!outputDirectory.Exists)
-                    outputDirectory.Create();
-                foreach (var file in Directory.GetFiles(inputDirectoryName, "*.docx"))
-                {
-                    ConvertToHtml(file, outputDirectoryName);
-                }
-            }*/
+                ConvertToHtml(file, outputDirectoryName);
+                result++;
+            }
 
-            
+            return result;
         }
     }
 }
