@@ -44,7 +44,12 @@ namespace WordConverterUI
         private void submit_Click(object sender, RoutedEventArgs e)
         {
             var newFolder = FileNameTextBox.Text + "_converted";
-            var result = WordConvert.WordConverter.ConvertPath(FileNameTextBox.Text, newFolder);
+            bool rename = false;
+            if (chkRename.IsChecked.HasValue && chkRename.IsChecked.Value)
+            {
+                rename = true;
+            }
+            var result = WordConvert.WordConverter.ConvertPath(FileNameTextBox.Text, newFolder, rename);
             if (result != 0)
             {
                 statusLabel.Content = "Конвертация прошла успешно: " + newFolder + ", " + Convert.ToString(result) + " файлов сконвертировано.";

@@ -13,7 +13,7 @@ namespace WordConvert
     public class WordConverter
     {
         
-        static void ConvertToHtml(string sourceFilePath, string outputDirectoryName)
+        static void ConvertToHtml(string sourceFilePath, string outputDirectoryName, string outputFileName)
         {
             var fileName = Path.GetFileNameWithoutExtension(sourceFilePath);
 
@@ -22,28 +22,44 @@ namespace WordConvert
             var document = new Document(sourceFilePath);
             var options = new HtmlSaveOptions(SaveFormat.Html);
             options.ExportImagesAsBase64 = true;
-            document.Save(Path.Combine(outputDirectoryName, fileName + ".html"), options);
+            document.Save(Path.Combine(outputDirectoryName, outputFileName + ".html"), options);
         }
 
-        public static int ConvertPath(string inputDirectoryName, string outputDirectoryName)
+        public static int ConvertPath(string inputDirectoryName, string outputDirectoryName, bool rename=false)
         {
             var outputDirectory = new DirectoryInfo(outputDirectoryName);
             if (!outputDirectory.Exists)
                 outputDirectory.Create();
 
             int result = 0;
+            int count = 1;
 
-            // convert all DOCXs
-            foreach (var file in Directory.GetFiles(inputDirectoryName, "*.docx"))
+            var files = new SortedSet<string>();
+
+            // gather all DOCXs
+            foreach (var file in Directory.GetFiles(inputDirectoryName, "*.docx").OrderBy(x => x))
             {
-                ConvertToHtml(file, outputDirectoryName);
-                result++;
+                if (!files.Add(file))
+                {
+                    Console.WriteLine("Warning! " + file + " will not be converted!");
+                }
             }
 
-            // convert all DOCs
-            foreach (var file in Directory.GetFiles(inputDirectoryName, "*.doc"))
+            // gather all DOCs
+            foreach (var file in Directory.GetFiles(inputDirectoryName, "*.doc").OrderBy(x => x))
             {
-                ConvertToHtml(file, outputDirectoryName);
+                if (!files.Add(file))
+                {
+                    Console.WriteLine("Warning! " + file + " will not be converted!");
+                }
+            }
+
+            // convert
+            foreach (var file in files)
+            {
+                var newName = rename ? count.ToString("D4") : file;
+                ConvertToHtml(file, outputDirectoryName, newName);
+                count++;
                 result++;
             }
 
